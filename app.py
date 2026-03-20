@@ -1,20 +1,14 @@
-from flask import Flask
+from flask import Flask, render_template
 import os
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return {
-        "mensaje": "Entorno funcionando correctamente",
-        "curso": "Gestion de datos para IA"
-    }
-
-@app.route("/status")
-def status():
-    return {
-        "status": "ok"
-    }
+    return render_template("index.html", 
+                           mensaje="Entorno funcionando", 
+                           curso="Gestion de Datos para IA")
 
 if __name__ == "__name__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

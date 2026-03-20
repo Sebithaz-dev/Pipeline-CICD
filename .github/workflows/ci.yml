@@ -30,3 +30,8 @@ jobs:
       - name: Construir imagen
         run:  |
           docker build -t entorno-ia .
+      
+      - name: Disparar despliegue en Render
+        if: success()
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
