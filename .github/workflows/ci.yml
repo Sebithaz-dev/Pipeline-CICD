@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run:  |
+          pip install -r requirements.txt
+      
+      - name: Probar importacion
+        run:  |
+          python -c "from app import app; print('App OK')"
+      
+      - name: Construir imagen
+        run:  |
+          docker build -t entorno-ia .
