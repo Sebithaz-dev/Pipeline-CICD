@@ -1,4 +1,4 @@
-# Pipeline CI/CD - Docker
+# Pipeline CI/CD - Docker (README Outdated)
 Consiste en un proyecto donde se demuestra la **interoperabilidad** que existe entre diferentes tecnologias como Render, Github, Docker, etc. 
 Aplicando todo esto a un entorno que esta dirigido a la **preparacion de datos y entrenamiento para ML/IA** (futura actualizacion).
 
