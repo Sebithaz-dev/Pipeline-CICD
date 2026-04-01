@@ -1,2 +1,10 @@
 flask==3.0.3
 gunicorn==22.0.0
+
+pandas
+pyarrow
+google-cloud-bigquery
+google-cloud-bigquery-storage
+db-dtypes
+pytest
+dotenv
