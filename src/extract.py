@@ -16,14 +16,17 @@ OUTPUT_PATH = BASE_DIR / "../data/raw" / FILE_NAME
 # Query de ejemplo (Cambiar de acuerdo a contexto)
 QUERY = """
 SELECT
-  tripduration,
-  starttime,
-  bikeid
+    bikeid,
+    tripduration,
+    usertype,
+    birth_year,
+    (2026 - birth_year) as edad
 FROM
-  `bigquery-public-data.new_york_citibike.citibike_trips`
+    `bigquery-public-data.new_york_citibike.citibike_trips`
 WHERE
-  EXTRACT(YEAR FROM starttime) = 2017
-LIMIT 10;
+    birth_year BETWEEN 1996 AND 2006
+    AND birth_year IS NOT NULL
+LIMIT 500;
 """
 
 def load_environment():
@@ -61,6 +64,7 @@ def run_query(client):
     Ejecuta la Query de ejemplo y devuelve un DataFrame
     """
     try:
+        print("Extrayendo datos de BigQuery...")
         return client.query(QUERY).to_dataframe()
 
     except Exception as e:
@@ -76,7 +80,9 @@ def save_parquet(df):
     try:
         OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
         df.to_parquet(OUTPUT_PATH)
+        print("\n--- Extraccion finalizada ---")
         print(f"Datos guardados en: {OUTPUT_PATH}")
+        print(f"Cant. Registros: {len(df)}\n")
     except Exception as e:
         print(f"Error guardando archivo: {e}")
 
@@ -87,6 +93,7 @@ def main():
     2. Crea cliente BigQuery.
     3. Ejecuta Query.
     4. Guarda resultados.
+    5. Muestra pequeño analisis.
     """
     load_environment()
     
@@ -95,7 +102,7 @@ def main():
         return 
     
     df = run_query(client)
-    if df is None:
+    if df is None or df.empty:
         return 
     
     save_parquet(df)
